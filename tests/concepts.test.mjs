@@ -44,6 +44,19 @@ test("supports Portuguese, English and Spanish with localized metadata", async (
   assert.match(script, /meta\[name="description"\]/);
 });
 
+test("provides the RS logo to WhatsApp and social link previews", async () => {
+  const { html } = await source();
+  await Promise.all([
+    access(new URL("assets/rs-logo.svg", root)),
+    access(new URL("assets/rs-social-preview.png", root)),
+  ]);
+  assert.match(html, /property="og:image" content="https:\/\/amineedge\.github\.io\/rosana-schmit-lash\/assets\/rs-social-preview\.png"/);
+  assert.match(html, /property="og:image:width" content="1400"/);
+  assert.match(html, /property="og:image:height" content="1400"/);
+  assert.match(html, /rel="icon" href="\.\/assets\/rs-logo\.svg"/);
+  assert.match(html, /rel="canonical" href="https:\/\/rosanaschmit\.com\.br\/"/);
+});
+
 test("keeps unconfirmed content visibly honest", async () => {
   const { html, script } = await source();
   assert.match(html, /Apresentação completa em breve/);
