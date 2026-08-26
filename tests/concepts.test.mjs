@@ -95,6 +95,16 @@ test("includes responsive and accessible interaction states", async () => {
   assert.match(html, /data-i18n-aria="navAria"/);
 });
 
+test("keeps the mobile opening compact and the brand subtitle centered", async () => {
+  const { css } = await source();
+  assert.match(css, /\.brand \{[^}]*display: inline-grid;[^}]*justify-items: center/);
+  assert.match(css, /\.brand span \{[^}]*width: 100%;[^}]*text-align: center/);
+  const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
+  assert.match(mobile, /\.hero \.eyebrow, \.hero \.location-line \{ display: none; \}/);
+  assert.match(mobile, /\.hero-media \{ display: none; \}/);
+  assert.match(mobile, /\.hero-copy \{[^}]*min-height: 0;[^}]*padding-top: 38px;[^}]*padding-bottom: 30px/);
+});
+
 test("ships the editorial hero and accepted design concepts", async () => {
   await Promise.all([
     "assets/rosana-hero.png",
