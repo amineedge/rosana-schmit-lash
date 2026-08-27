@@ -98,14 +98,15 @@ test("publishes the supplied training history without exposing certificate image
     "Tendências 2024",
     "Trends",
     "Técnica Coreana de Lash Lifting",
-    "20 jan 2022",
-    "8 jun 2022",
-    "25 jan 2024",
-    "27 jun 2024",
-    "18 jun 2026",
+    "jan 2022",
+    "jun 2022",
+    "jan 2024",
+    "jun 2024",
+    "jun 2026",
     "6 horas",
   ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
   assert.equal((html.match(/class="certificate-item"/g) || []).length, 5);
+  assert.doesNotMatch(`${html}\n${script}`, /(?:20|8|25|27|18) (?:jan|jun) 20(?:22|24|26)/i);
   assert.doesNotMatch(html, /certificate-placeholder|certificado[^\n]+\.(?:jpe?g|png|webp)/i);
   assert.doesNotMatch(`${html}\n${script}`, /Rosana Schmit Pires/i);
 });
