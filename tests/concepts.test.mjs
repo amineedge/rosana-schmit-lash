@@ -97,8 +97,7 @@ test("publishes the supplied training history without exposing certificate image
     "Aline Academy",
     "Formação em Extensão de Cílios",
     "Lash Lifting",
-    "Tendências 2024",
-    "Trends",
+    "Tendências & novas técnicas",
     "Técnica Coreana de Lash Lifting",
     "Jornada Elite Lash",
     "Empreenda Beauty",
@@ -106,8 +105,6 @@ test("publishes the supplied training history without exposing certificate image
     "Brow Lamination",
     "jan 2022",
     "jun 2022",
-    "jan 2024",
-    "jun 2024",
     "ago 2024",
     "jun 2026",
     "6 horas",
@@ -115,12 +112,12 @@ test("publishes the supplied training history without exposing certificate image
     "60 horas",
     "MLB Academy",
   ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
-  assert.equal((html.match(/class="certificate-item/g) || []).length, 10);
+  assert.equal((html.match(/class="certificate-item/g) || []).length, 9);
   assert.equal((html.match(/class="certificate-date-empty"/g) || []).length, 3);
   assert.match(html, /certificateInitialDate[\s\S]*?certificateInitialTitle[\s\S]*?certificateInitialBody[\s\S]*?certificateOneDate/);
-  assert.match(script, /certificateThreeBody: "Efeitos Fox, Sirena e delineado · Karen Beauty"/);
-  assert.match(script, /certificateFourBody: "Efeitos Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
-  assert.doesNotMatch(script, /certificate(?:Three|Four)Body: "[^"]*curso on-line/);
+  assert.match(script, /certificateThreeBody: "Curso e atualização em novas técnicas: efeitos Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
+  assert.doesNotMatch(script, /certificateFour(?:Title|Body|Date)/);
+  assert.doesNotMatch(script, /certificateThreeBody: "[^"]*curso on-line/);
   assert.doesNotMatch(`${html}\n${script}`, /(?:20|8|25|27|18) (?:jan|jun) 20(?:22|24|26)/i);
   assert.doesNotMatch(html, /certificate-placeholder|certificado[^\n]+\.(?:jpe?g|png|webp)/i);
   assert.doesNotMatch(`${html}\n${script}`, /Rosana Schmit Pires/i);
