@@ -56,7 +56,7 @@ test("provides Rosana's supplied signature logo and social link previews", async
   assert.match(html, /property="og:image" content="https:\/\/rosanaschmit\.com\.br\/assets\/rs-social-preview\.png"/);
   assert.match(html, /property="og:image:width" content="1400"/);
   assert.match(html, /property="og:image:height" content="1400"/);
-  assert.equal((html.match(/src="\.\/assets\/rosana-schmit-signature\.svg"/g) || []).length, 2);
+  assert.equal((html.match(/src="\.\/assets\/rosana-schmit-signature\.svg"/g) || []).length, 4);
   assert.match(html, /rel="icon" href="\.\/assets\/rs-icon-32\.png"/);
   assert.match(html, /rel="apple-touch-icon" href="\.\/assets\/rs-icon-180\.png"/);
   assert.match(html, /rel="canonical" href="https:\/\/rosanaschmit\.com\.br\/"/);
@@ -69,6 +69,19 @@ test("removes the unsupported refill field from every language and procedure", a
   assert.match(css, /\.service-facts \{[^}]*grid-template-columns: repeat\(4, 1fr\)/);
   assert.equal((html.match(/class="service-facts"/g) || []).length, 2);
   assert.equal((html.match(/data-i18n="price"/g) || []).length, 2);
+});
+
+test("uses the official signature lockup on Rosana's portrait and story", async () => {
+  const { html, css } = await source();
+  assert.equal((html.match(/class="brand-lockup/g) || []).length, 2);
+  assert.match(html, /class="brand-lockup artist-story-signature"[\s\S]*?rosana-schmit-signature\.svg[\s\S]*?<span>Lash Designer<\/span>/);
+  assert.match(html, /class="brand-lockup portrait-lockup"[\s\S]*?rosana-schmit-signature\.svg[\s\S]*?<span>Lash Designer<\/span>/);
+  assert.equal((html.match(/class="brand-signature" src="\.\/assets\/rosana-schmit-signature\.svg" alt="Rosana Schmit"/g) || []).length, 2);
+  assert.doesNotMatch(html, /<figcaption>[\s\S]*?Lash Artist[\s\S]*?<\/figcaption>/);
+  assert.match(css, /\.brand-lockup \{[^}]*display: inline-grid;[^}]*justify-items: center/);
+  assert.match(css, /\.portrait-frame figcaption \{[^}]*display: grid;[^}]*place-items: center/);
+  assert.match(css, /\.portrait-frame > img \{[^}]*min-height: 420px/);
+  assert.doesNotMatch(css, /\.portrait-frame img \{/);
 });
 
 test("keeps unconfirmed content visibly honest", async () => {
