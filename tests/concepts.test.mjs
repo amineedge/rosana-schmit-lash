@@ -90,9 +90,28 @@ test("uses the official signature lockup on Rosana's portrait and story", async 
   assert.doesNotMatch(css, /\.portrait-frame img \{/);
 });
 
+test("publishes the supplied training history without exposing certificate images or Rosana's full name", async () => {
+  const { html, script } = await source();
+  for (const expected of [
+    "Formação em Extensão de Cílios",
+    "Lash Lifting",
+    "Tendências 2024",
+    "Trends",
+    "Técnica Coreana de Lash Lifting",
+    "20 jan 2022",
+    "8 jun 2022",
+    "25 jan 2024",
+    "27 jun 2024",
+    "18 jun 2026",
+    "6 horas",
+  ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
+  assert.equal((html.match(/class="certificate-item"/g) || []).length, 5);
+  assert.doesNotMatch(html, /certificate-placeholder|certificado[^\n]+\.(?:jpe?g|png|webp)/i);
+  assert.doesNotMatch(`${html}\n${script}`, /Rosana Schmit Pires/i);
+});
+
 test("keeps unconfirmed content visibly honest", async () => {
   const { html, script } = await source();
-  assert.match(html, /Certificados em breve/);
   assert.match(html, /A confirmar/);
   assert.match(html, /autorização das clientes/);
   assert.match(html, /Textos descritivos aguardam validação final/);

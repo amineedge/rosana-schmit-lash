@@ -147,9 +147,12 @@ h2, h3 { font-family: var(--display); font-weight: 400; }
 .gallery-card b { color: var(--wine); font-family: var(--display); font-size: 16px; font-weight: 500; }
 .gallery-card small { font-size: 10px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
 .certificate-area { padding-left: clamp(30px, 4vw, 64px); border-left: 1px solid var(--line); }
-.certificate-placeholder { min-height: 370px; display: grid; place-items: center; align-content: center; gap: 18px; color: var(--taupe-text); text-align: center; }
-.certificate-placeholder svg { width: 52px; fill: none; stroke: currentColor; stroke-width: 1.2; }
-.certificate-placeholder p { margin: 0; font-family: var(--display); font-size: 25px; }
+.certificate-intro { max-width: 380px; margin: 18px 0 30px; color: var(--muted); font-size: 12px; line-height: 1.75; }
+.certificate-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
+.certificate-item { display: grid; grid-template-columns: 84px 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+.certificate-item time { padding-top: 4px; color: var(--wine); font-size: 9px; font-weight: 600; letter-spacing: .08em; line-height: 1.4; text-transform: uppercase; }
+.certificate-item h3 { margin: 0 0 8px; font-family: var(--display); font-size: clamp(20px, 1.75vw, 27px); font-weight: 500; line-height: 1.05; }
+.certificate-item p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
 
 .testimonials { min-height: 350px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: 80px; padding: clamp(74px, 8vw, 125px) var(--gutter); background: var(--sand); overflow: hidden; }
 .testimonials h2 { max-width: 850px; }
@@ -247,6 +250,7 @@ h2, h3 { font-family: var(--display); font-weight: 400; }
 @media (max-width: 560px) {
   :root { --gutter: 20px; --section-space: 64px; }
   body { font-size: 14px; }
+  .certificate-item { grid-template-columns: 74px 1fr; gap: 14px; }
   .hero-copy { min-height: 0; padding-top: 38px; padding-bottom: 30px; }
   .hero .eyebrow, .hero .location-line { display: none; }
   .hero h1 { font-size: clamp(42px, 11.5vw, 50px); line-height: .92; }
