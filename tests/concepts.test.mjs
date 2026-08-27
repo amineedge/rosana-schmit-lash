@@ -44,21 +44,31 @@ test("supports Portuguese, English and Spanish with localized metadata", async (
   assert.match(script, /meta\[name="description"\]/);
 });
 
-test("provides the RS logo to WhatsApp and social link previews", async () => {
+test("provides Rosana's supplied signature logo and social link previews", async () => {
   const { html } = await source();
   await Promise.all([
-    access(new URL("assets/rs-logo.svg", root)),
+    access(new URL("assets/rosana-schmit-signature.svg", root)),
     access(new URL("assets/rs-social-preview.png", root)),
     access(new URL("assets/rs-icon-32.png", root)),
     access(new URL("assets/rs-icon-180.png", root)),
     access(new URL("assets/qr-instagram-rs.png", root)),
   ]);
-  assert.match(html, /property="og:image" content="https:\/\/amineedge\.github\.io\/rosana-schmit-lash\/assets\/rs-social-preview\.png"/);
+  assert.match(html, /property="og:image" content="https:\/\/rosanaschmit\.com\.br\/assets\/rs-social-preview\.png"/);
   assert.match(html, /property="og:image:width" content="1400"/);
   assert.match(html, /property="og:image:height" content="1400"/);
+  assert.equal((html.match(/src="\.\/assets\/rosana-schmit-signature\.svg"/g) || []).length, 2);
   assert.match(html, /rel="icon" href="\.\/assets\/rs-icon-32\.png"/);
   assert.match(html, /rel="apple-touch-icon" href="\.\/assets\/rs-icon-180\.png"/);
   assert.match(html, /rel="canonical" href="https:\/\/rosanaschmit\.com\.br\/"/);
+});
+
+test("removes the unsupported refill field from every language and procedure", async () => {
+  const { html, css, script } = await source();
+  assert.doesNotMatch(html, /data-i18n="refill"|Preenchimento/);
+  assert.doesNotMatch(script, /\brefill:\s*"|Relleno/);
+  assert.match(css, /\.service-facts \{[^}]*grid-template-columns: repeat\(4, 1fr\)/);
+  assert.equal((html.match(/class="service-facts"/g) || []).length, 2);
+  assert.equal((html.match(/data-i18n="price"/g) || []).length, 2);
 });
 
 test("keeps unconfirmed content visibly honest", async () => {
@@ -128,7 +138,11 @@ test("includes responsive and accessible interaction states", async () => {
 test("keeps the mobile opening compact and the brand subtitle centered", async () => {
   const { css } = await source();
   assert.match(css, /\.brand \{[^}]*display: inline-grid;[^}]*justify-items: center/);
+  assert.match(css, /\.brand-signature \{[^}]*width: 100%;[^}]*height: auto/);
   assert.match(css, /\.brand span \{[^}]*width: 100%;[^}]*text-align: center/);
+  assert.match(css, /@media \(max-width: 820px\)[\s\S]*?--header-height: 89px/);
+  assert.match(css, /@media \(max-width: 820px\)[\s\S]*?\.site-header \{[^}]*gap: 18px/);
+  assert.match(css, /@media \(max-width: 820px\)[\s\S]*?\.brand \{[^}]*width: min\(230px, calc\(100vw - 120px\)\)/);
   const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
   assert.match(mobile, /\.hero \.eyebrow, \.hero \.location-line \{ display: none; \}/);
   assert.match(mobile, /\.hero-media \{ display: none; \}/);
