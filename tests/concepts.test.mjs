@@ -93,6 +93,8 @@ test("uses the official signature lockup on Rosana's portrait and story", async 
 test("publishes the supplied training history without exposing certificate images or Rosana's full name", async () => {
   const { html, script } = await source();
   for (const expected of [
+    "Formação inicial de Extensão de Cílios Fio a Fio",
+    "Aline Academy",
     "Formação em Extensão de Cílios",
     "Lash Lifting",
     "Tendências 2024",
@@ -113,8 +115,12 @@ test("publishes the supplied training history without exposing certificate image
     "60 horas",
     "MLB Academy",
   ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
-  assert.equal((html.match(/class="certificate-item/g) || []).length, 9);
+  assert.equal((html.match(/class="certificate-item/g) || []).length, 10);
   assert.equal((html.match(/class="certificate-date-empty"/g) || []).length, 3);
+  assert.match(html, /certificateInitialDate[\s\S]*?certificateInitialTitle[\s\S]*?certificateInitialBody[\s\S]*?certificateOneDate/);
+  assert.match(script, /certificateThreeBody: "Efeitos Fox, Sirena e delineado · Karen Beauty"/);
+  assert.match(script, /certificateFourBody: "Efeitos Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
+  assert.doesNotMatch(script, /certificate(?:Three|Four)Body: "[^"]*curso on-line/);
   assert.doesNotMatch(`${html}\n${script}`, /(?:20|8|25|27|18) (?:jan|jun) 20(?:22|24|26)/i);
   assert.doesNotMatch(html, /certificate-placeholder|certificado[^\n]+\.(?:jpe?g|png|webp)/i);
   assert.doesNotMatch(`${html}\n${script}`, /Rosana Schmit Pires/i);
