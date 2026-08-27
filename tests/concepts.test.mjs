@@ -62,13 +62,13 @@ test("provides Rosana's supplied signature logo and social link previews", async
   assert.match(html, /rel="canonical" href="https:\/\/rosanaschmit\.com\.br\/"/);
 });
 
-test("removes the unsupported refill field from every language and procedure", async () => {
+test("keeps procedures concise while their detailed facts are still unconfirmed", async () => {
   const { html, css, script } = await source();
   assert.doesNotMatch(html, /data-i18n="refill"|Preenchimento/);
   assert.doesNotMatch(script, /\brefill:\s*"|Relleno/);
-  assert.match(css, /\.service-facts \{[^}]*grid-template-columns: repeat\(4, 1fr\)/);
-  assert.equal((html.match(/class="service-facts"/g) || []).length, 2);
-  assert.equal((html.match(/data-i18n="price"/g) || []).length, 2);
+  assert.doesNotMatch(html, /class="service-facts"/);
+  assert.doesNotMatch(html, /data-i18n="(?:duration|lasting|maintenance|price|toConfirm)"/);
+  assert.match(css, /\.service-row \{[^}]*grid-template-columns: 96px minmax\(220px, 1fr\) auto/);
 });
 
 test("uses the official signature lockup on Rosana's portrait and story", async () => {
@@ -113,7 +113,9 @@ test("publishes the supplied training history without exposing certificate image
     "MLB Academy",
   ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
   assert.equal((html.match(/class="certificate-item/g) || []).length, 9);
-  assert.equal((html.match(/class="certificate-date-empty"/g) || []).length, 3);
+  assert.equal((html.match(/class="certificate-date-pending"/g) || []).length, 3);
+  assert.equal((html.match(/data-i18n="certificateDatePending"/g) || []).length, 3);
+  assert.match(script, /certificateDatePending: "Data a confirmar"/);
   assert.match(html, /certificateInitialDate[\s\S]*?certificateInitialTitle[\s\S]*?certificateInitialBody[\s\S]*?certificateOneDate/);
   assert.match(script, /certificateThreeBody: "Curso e atualização em novas técnicas: efeitos Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
   assert.doesNotMatch(script, /certificateFour(?:Title|Body|Date)/);
@@ -125,7 +127,7 @@ test("publishes the supplied training history without exposing certificate image
 
 test("keeps unconfirmed content visibly honest", async () => {
   const { html, script } = await source();
-  assert.match(html, /A confirmar/);
+  assert.match(html, /Data a confirmar/);
   assert.match(html, /autorização das clientes/);
   assert.match(html, /Textos descritivos aguardam validação final/);
   assert.match(script, /methodPending: "Detalhes a confirmar com Rosana/);
@@ -197,7 +199,20 @@ test("keeps the mobile opening compact and the brand subtitle centered", async (
   const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
   assert.match(mobile, /\.hero \.eyebrow, \.hero \.location-line \{ display: none; \}/);
   assert.match(mobile, /\.hero-media \{ display: none; \}/);
-  assert.match(mobile, /\.hero-copy \{[^}]*min-height: 0;[^}]*padding-top: 38px;[^}]*padding-bottom: 30px/);
+  assert.match(mobile, /\.hero-copy \{[^}]*min-height: 0;[^}]*padding-top: 30px;[^}]*padding-bottom: 26px/);
+});
+
+test("keeps results compact with a mobile rail and collapsed training history", async () => {
+  const { html, css, script } = await source();
+  assert.match(html, /<details class="certificate-area">/);
+  assert.match(html, /<summary class="certificate-summary">/);
+  assert.match(html, /data-i18n="certificatesOpen"/);
+  assert.match(script, /certificatesOpen: "Ver as 9 formações"/);
+  assert.match(css, /\.proof \{ display: block;/);
+  assert.match(css, /\.certificate-list \{[^}]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
+  const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
+  assert.match(mobile, /\.gallery-grid \{[^}]*display: flex;[^}]*overflow-x: auto;[^}]*scroll-snap-type: x mandatory/);
+  assert.match(mobile, /\.gallery-card \{[^}]*flex: 0 0 min\(76vw, 292px\)/);
 });
 
 test("ships the editorial hero and accepted design concepts", async () => {
