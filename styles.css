@@ -83,10 +83,26 @@ address { font-style: normal; }
 .section-shell { padding: var(--section-space) var(--gutter); border-bottom: 1px solid var(--line); }
 h2, h3 { font-family: var(--display); font-weight: 400; }
 .section-intro h2, .section-title-row h2, .gallery-area > h2, .testimonials h2 { margin: 0; font-size: clamp(45px, 4.8vw, 76px); line-height: 1; letter-spacing: -.035em; }
-.about { display: grid; grid-template-columns: .82fr .58fr 1fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
+.about { display: grid; grid-template-columns: .9fr .58fr 1fr; gap: clamp(40px, 6vw, 96px); align-items: start; }
 .section-intro > p:not(.section-label) { max-width: 470px; color: var(--muted); }
 .section-intro > p:first-of-type:not(.section-label) { margin-top: 28px; }
-.pending-copy { margin-top: 28px; color: var(--wine) !important; font-weight: 500; }
+.artist-story-intro { margin-bottom: 24px; }
+.artist-story { max-width: 490px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.artist-story summary { min-height: 54px; display: flex; align-items: center; justify-content: space-between; gap: 18px; color: var(--wine); cursor: pointer; font-size: 10px; font-weight: 600; letter-spacing: .12em; list-style: none; text-transform: uppercase; }
+.artist-story summary::-webkit-details-marker { display: none; }
+.story-close-label { display: none; }
+.artist-story[open] .story-open-label { display: none; }
+.artist-story[open] .story-close-label { display: inline; }
+.story-toggle-icon { position: relative; width: 18px; height: 18px; flex: 0 0 18px; }
+.story-toggle-icon::before, .story-toggle-icon::after { content: ""; position: absolute; top: 50%; left: 2px; right: 2px; height: 1px; background: currentColor; transition: transform .2s ease; }
+.story-toggle-icon::after { transform: rotate(90deg); }
+.artist-story[open] .story-toggle-icon::after { transform: rotate(0); }
+.artist-story-body { padding: 8px 0 28px; color: var(--muted); font-size: 13px; line-height: 1.75; }
+.artist-story-body p { margin: 0 0 18px; }
+.artist-story-body blockquote { margin: 24px 0; color: var(--wine); font-family: var(--display); font-size: clamp(25px, 2.2vw, 34px); line-height: 1.08; }
+.artist-story-signature { display: flex; flex-direction: column; gap: 4px; margin: 28px 0 0 !important; color: var(--brown); }
+.artist-story-signature strong { color: var(--wine); font-family: var(--script); font-size: 32px; font-weight: 400; line-height: 1; }
+.artist-story-signature span { font-size: 8px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; }
 .certificate-placeholder { position: relative; overflow: hidden; border: 1px solid var(--nude); background: linear-gradient(145deg, rgba(231, 221, 209, .35), rgba(212, 194, 176, .72)); }
 .portrait-frame { position: relative; min-height: 420px; margin: 0; overflow: hidden; background: var(--sand); }
 .portrait-frame::after { content: ""; position: absolute; inset: 0; border: 1px solid rgba(107, 31, 43, .2); pointer-events: none; }
@@ -236,6 +252,7 @@ h2, h3 { font-family: var(--display); font-weight: 400; }
   .button { width: 100%; }
   .hero-media { display: none; }
   .about { display: block; }
+  .artist-story { max-width: none; }
   .portrait-frame { min-height: 420px; margin: 46px 0; }
   .portrait-frame img { min-height: 420px; }
   .method-list { display: block; }

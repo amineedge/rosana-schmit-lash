@@ -59,13 +59,26 @@ test("provides the RS logo to WhatsApp and social link previews", async () => {
 
 test("keeps unconfirmed content visibly honest", async () => {
   const { html, script } = await source();
-  assert.match(html, /Apresentação completa em breve/);
   assert.match(html, /Certificados em breve/);
   assert.match(html, /A confirmar/);
   assert.match(html, /autorização das clientes/);
   assert.match(html, /Textos descritivos aguardam validação final/);
   assert.match(script, /methodPending: "Detalhes a confirmar com Rosana/);
   assert.doesNotMatch(`${html}\n${script}`, /clientes satisfeitas|anos de experiência|★★★★★|5[,.]0/i);
+});
+
+test("publishes Rosana's story without turning the section into a long wall of text", async () => {
+  const { html, script } = await source();
+  for (const excerpt of [
+    "Conheça a artista",
+    "Lembro da primeira vez que fiz meus cílios, em 2019",
+    "Eu quero proporcionar isso para outras mulheres",
+    "Em 2020, me formei na Aline Academy",
+    "quase seis anos depois",
+  ]) assert.match(`${html}\n${script}`, new RegExp(excerpt, "i"));
+  assert.match(html, /<details class="artist-story">/);
+  assert.match(html, /data-i18n="aboutReadStory"/);
+  assert.doesNotMatch(`${html}\n${script}`, /Apresentação completa em breve|Full introduction coming soon|Presentación completa próximamente/);
 });
 
 test("uses Rosana's real portrait and recent Instagram portfolio images", async () => {
