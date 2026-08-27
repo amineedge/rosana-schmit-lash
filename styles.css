@@ -150,7 +150,8 @@ h2, h3 { font-family: var(--display); font-weight: 400; }
 .certificate-intro { max-width: 380px; margin: 18px 0 30px; color: var(--muted); font-size: 12px; line-height: 1.75; }
 .certificate-list { margin: 0; padding: 0; border-top: 1px solid var(--line); list-style: none; }
 .certificate-item { display: grid; grid-template-columns: 84px 1fr; gap: 18px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-.certificate-item time { padding-top: 4px; color: var(--wine); font-size: 9px; font-weight: 600; letter-spacing: .08em; line-height: 1.4; text-transform: uppercase; }
+.certificate-item time, .certificate-date-empty { padding-top: 4px; color: var(--wine); font-size: 9px; font-weight: 600; letter-spacing: .08em; line-height: 1.4; text-transform: uppercase; }
+.certificate-date-empty { color: var(--muted); }
 .certificate-item h3 { margin: 0 0 8px; font-family: var(--display); font-size: clamp(20px, 1.75vw, 27px); font-weight: 500; line-height: 1.05; }
 .certificate-item p { margin: 0; color: var(--muted); font-size: 10px; line-height: 1.65; }
 

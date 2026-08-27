@@ -59,7 +59,7 @@ Une présence personnelle centrée sur Rosana Schmit, son expérience réelle et
 - Instagram professionnel de Rosana : <https://www.instagram.com/roschmitlash/>. L’export local a été inventorié et six gros plans centrés sur les yeux ont été retenus pour la galerie, avec leurs dates, shortcodes et sources consignés dans `assets/instagram/PROVENANCE.md`.
 - Instagram AMART : <https://www.instagram.com/amartstudio_/>.
 - Le Linktree AMART confirme « Estética & Formação », un lien WhatsApp pour les rendez-vous, un autre pour les cours et l’adresse Servidão das Palmeiras Nativas, 48, loja 01, Lagoa da Conceição, Florianópolis : <https://linktr.ee/amartstudio_>.
-- Un portrait fourni pour la carte de visite et six publications du portfolio Instagram sont intégrés. Aucun témoignage, tarif, détail de procédure ou nombre d’années validé n’est encore fourni au projet ; le travail futur ne doit pas les inventer. Cinq certificats fournis et validés sont retranscrits sous forme de formations textuelles ; leurs photos restent privées afin de ne pas divulguer le nom complet de Rosana.
+- Un portrait fourni pour la carte de visite et six publications du portfolio Instagram sont intégrés. Aucun témoignage, tarif, détail de procédure ou nombre d’années validé n’est encore fourni au projet ; le travail futur ne doit pas les inventer. Neuf certificats fournis et validés sont retranscrits sous forme de formations textuelles ; leurs photos restent privées afin de ne pas divulguer le nom complet de Rosana. Les dates absentes des originaux ne sont pas inventées.
 
 ## Product Principles
 
