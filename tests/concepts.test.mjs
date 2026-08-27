@@ -72,14 +72,20 @@ test("removes the unsupported refill field from every language and procedure", a
 });
 
 test("uses the official signature lockup on Rosana's portrait and story", async () => {
-  const { html, css } = await source();
-  assert.equal((html.match(/class="brand-lockup/g) || []).length, 2);
+  const { html, css, script } = await source();
+  assert.equal((html.match(/class="brand-lockup/g) || []).length, 1);
   assert.match(html, /class="brand-lockup artist-story-signature"[\s\S]*?rosana-schmit-signature\.svg[\s\S]*?<span>Lash Designer<\/span>/);
-  assert.match(html, /class="brand-lockup portrait-lockup"[\s\S]*?rosana-schmit-signature\.svg[\s\S]*?<span>Lash Designer<\/span>/);
-  assert.equal((html.match(/class="brand-signature" src="\.\/assets\/rosana-schmit-signature\.svg" alt="Rosana Schmit"/g) || []).length, 2);
+  assert.match(html, /<figcaption><img class="portrait-signature"[\s\S]*?alt="Rosana Schmit"[\s\S]*?<span class="portrait-role">Lash Designer<\/span><\/figcaption>/);
+  assert.equal((html.match(/class="brand-signature" src="\.\/assets\/rosana-schmit-signature\.svg" alt="Rosana Schmit"/g) || []).length, 1);
   assert.doesNotMatch(html, /<figcaption>[\s\S]*?Lash Artist[\s\S]*?<\/figcaption>/);
   assert.match(css, /\.brand-lockup \{[^}]*display: inline-grid;[^}]*justify-items: center/);
-  assert.match(css, /\.portrait-frame figcaption \{[^}]*display: grid;[^}]*place-items: center/);
+  assert.match(css, /\.portrait-frame figcaption \{[^}]*display: flex;[^}]*justify-content: space-between/);
+  assert.match(css, /\.portrait-frame figcaption \{[^}]*height: 46\.5px;[^}]*align-items: baseline;[^}]*gap: 14px;[^}]*padding: 12px 14px/);
+  assert.match(css, /\.portrait-signature \{[^}]*max-width: 45%;[^}]*height: 21px/);
+  assert.match(css, /\.portrait-role \{[^}]*font-size: var\(--brand-subtitle-size\);[^}]*letter-spacing: var\(--brand-subtitle-tracking\)/);
+  assert.match(css, /\.brand-lockup > span \{[^}]*font-size: var\(--brand-subtitle-size\);[^}]*letter-spacing: var\(--brand-subtitle-tracking\)/);
+  assert.doesNotMatch(css, /@media \(max-width: 820px\)[\s\S]*?\.portrait-role \{/);
+  assert.match(script, /portraitAlt: "Rosana Schmit, Lash Designer"/);
   assert.match(css, /\.portrait-frame > img \{[^}]*min-height: 420px/);
   assert.doesNotMatch(css, /\.portrait-frame img \{/);
 });
