@@ -140,7 +140,7 @@ test("keeps the mobile opening compact and the brand subtitle centered", async (
   assert.match(css, /\.brand \{[^}]*display: inline-grid;[^}]*justify-items: center/);
   assert.match(css, /\.brand-signature \{[^}]*width: 100%;[^}]*height: auto/);
   assert.match(css, /\.brand span \{[^}]*width: 100%;[^}]*text-align: center/);
-  assert.match(css, /@media \(max-width: 820px\)[\s\S]*?--header-height: 89px/);
+  assert.match(css, /@media \(max-width: 820px\)[\s\S]*?--header-height: 90px/);
   assert.match(css, /@media \(max-width: 820px\)[\s\S]*?\.site-header \{[^}]*gap: 18px/);
   assert.match(css, /@media \(max-width: 820px\)[\s\S]*?\.brand \{[^}]*width: min\(230px, calc\(100vw - 120px\)\)/);
   const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
