@@ -56,7 +56,7 @@ test("provides Rosana's supplied signature logo and social link previews", async
   assert.match(html, /property="og:image" content="https:\/\/rosanaschmit\.com\.br\/assets\/rs-social-preview\.png"/);
   assert.match(html, /property="og:image:width" content="1400"/);
   assert.match(html, /property="og:image:height" content="1400"/);
-  assert.equal((html.match(/src="\.\/assets\/rosana-schmit-signature\.svg"/g) || []).length, 4);
+  assert.equal((html.match(/src="\.\/assets\/rosana-schmit-signature\.svg"/g) || []).length, 3);
   assert.match(html, /rel="icon" href="\.\/assets\/rs-icon-32\.png"/);
   assert.match(html, /rel="apple-touch-icon" href="\.\/assets\/rs-icon-180\.png"/);
   assert.match(html, /rel="canonical" href="https:\/\/rosanaschmit\.com\.br\/"/);
@@ -71,20 +71,14 @@ test("keeps procedures concise while their detailed facts are still unconfirmed"
   assert.match(css, /\.service-row \{[^}]*grid-template-columns: 96px minmax\(220px, 1fr\) auto/);
 });
 
-test("uses the official signature lockup on Rosana's portrait and story", async () => {
+test("preserves the story signature and removes the portrait caption", async () => {
   const { html, css, script } = await source();
+  assert.doesNotMatch(html, /<figcaption>|portrait-signature|portrait-role/);
   assert.equal((html.match(/class="brand-lockup/g) || []).length, 1);
   assert.match(html, /class="brand-lockup artist-story-signature"[\s\S]*?rosana-schmit-signature\.svg[\s\S]*?<span>Lash Designer<\/span>/);
-  assert.match(html, /<figcaption><img class="portrait-signature"[\s\S]*?alt="Rosana Schmit"[\s\S]*?<span class="portrait-role">Lash Designer<\/span><\/figcaption>/);
   assert.equal((html.match(/class="brand-signature" src="\.\/assets\/rosana-schmit-signature\.svg" alt="Rosana Schmit"/g) || []).length, 1);
-  assert.doesNotMatch(html, /<figcaption>[\s\S]*?Lash Artist[\s\S]*?<\/figcaption>/);
   assert.match(css, /\.brand-lockup \{[^}]*display: inline-grid;[^}]*justify-items: center/);
-  assert.match(css, /\.portrait-frame figcaption \{[^}]*display: flex;[^}]*justify-content: space-between/);
-  assert.match(css, /\.portrait-frame figcaption \{[^}]*height: 46\.5px;[^}]*align-items: baseline;[^}]*gap: 14px;[^}]*padding: 12px 14px/);
-  assert.match(css, /\.portrait-signature \{[^}]*max-width: 45%;[^}]*height: 21px/);
-  assert.match(css, /\.portrait-role \{[^}]*font-size: var\(--brand-subtitle-size\);[^}]*letter-spacing: var\(--brand-subtitle-tracking\)/);
   assert.match(css, /\.brand-lockup > span \{[^}]*font-size: var\(--brand-subtitle-size\);[^}]*letter-spacing: var\(--brand-subtitle-tracking\)/);
-  assert.doesNotMatch(css, /@media \(max-width: 820px\)[\s\S]*?\.portrait-role \{/);
   assert.match(script, /portraitAlt: "Rosana Schmit, Lash Designer"/);
   assert.match(css, /\.portrait-frame > img \{[^}]*min-height: 420px/);
   assert.doesNotMatch(css, /\.portrait-frame img \{/);
@@ -93,14 +87,13 @@ test("uses the official signature lockup on Rosana's portrait and story", async 
 test("publishes the supplied training history without exposing certificate images or Rosana's full name", async () => {
   const { html, script } = await source();
   for (const expected of [
-    "Formação inicial de Extensão de Cílios Fio a Fio",
+    "Formação inicial de Extensão de Cílios",
     "Aline Academy",
     "Formação em Extensão de Cílios",
     "Lash Lifting",
-    "Tendências & novas técnicas",
+    "Tendências 2024",
     "Técnica Coreana de Lash Lifting",
     "Jornada Elite Lash",
-    "Empreenda Beauty",
     "Booster Brows",
     "Brow Lamination",
     "jan 2022",
@@ -108,16 +101,15 @@ test("publishes the supplied training history without exposing certificate image
     "ago 2024",
     "jun 2026",
     "6 horas",
-    "8 horas",
     "60 horas",
     "MLB Academy",
   ]) assert.match(`${html}\n${script}`, new RegExp(expected, "i"));
-  assert.equal((html.match(/class="certificate-item/g) || []).length, 9);
-  assert.equal((html.match(/class="certificate-date-pending"/g) || []).length, 3);
-  assert.equal((html.match(/data-i18n="certificateDatePending"/g) || []).length, 3);
+  assert.equal((html.match(/class="certificate-item/g) || []).length, 8);
+  assert.equal((html.match(/class="certificate-date-pending"/g) || []).length, 1);
+  assert.equal((html.match(/data-i18n="certificateDatePending"/g) || []).length, 1);
   assert.match(script, /certificateDatePending: "Data a confirmar"/);
   assert.match(html, /certificateInitialDate[\s\S]*?certificateInitialTitle[\s\S]*?certificateInitialBody[\s\S]*?certificateOneDate/);
-  assert.match(script, /certificateThreeBody: "Curso e atualização em novas técnicas: efeitos Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
+  assert.match(script, /certificateThreeBody: "Curso de atualização em novos efeitos: Fox, Sirena, delineado, gringa, lash less e Kim · Karen Beauty"/);
   assert.doesNotMatch(script, /certificateFour(?:Title|Body|Date)/);
   assert.doesNotMatch(script, /certificateThreeBody: "[^"]*curso on-line/);
   assert.doesNotMatch(`${html}\n${script}`, /(?:20|8|25|27|18) (?:jan|jun) 20(?:22|24|26)/i);
@@ -207,7 +199,7 @@ test("keeps results compact with a mobile rail and collapsed training history", 
   assert.match(html, /<details class="certificate-area">/);
   assert.match(html, /<summary class="certificate-summary">/);
   assert.match(html, /data-i18n="certificatesOpen"/);
-  assert.match(script, /certificatesOpen: "Ver as 9 formações"/);
+  assert.match(script, /certificatesOpen: "Ver as 8 formações"/);
   assert.match(css, /\.proof \{ display: block;/);
   assert.match(css, /\.certificate-list \{[^}]*grid-template-columns: repeat\(3, minmax\(0, 1fr\)\)/);
   const mobile = css.slice(css.indexOf("@media (max-width: 560px)"));
