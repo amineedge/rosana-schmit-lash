@@ -1,0 +1,8 @@
+# Permanent QR address. Change ONLY the destination URL below, never /qr.
+RewriteEngine On
+RewriteRule ^qr/?$ https://rosanaschmit.com.br/ [R=302,L,NE]
+
+<IfModule mod_headers.c>
+    SetEnvIf Request_URI "^/qr/?$" QR_REDIRECT
+    Header always set Cache-Control "no-store, max-age=0" env=QR_REDIRECT
+</IfModule>

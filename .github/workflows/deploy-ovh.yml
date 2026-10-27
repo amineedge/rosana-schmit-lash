@@ -41,6 +41,7 @@ jobs:
           put styles.css -o styles-new.css
           put app.js -o app-new.js
           mirror --reverse --only-newer --parallel=2 assets assets
+          put .htaccess -o .htaccess
           rm index.html
           rm styles.css
           rm app.js
