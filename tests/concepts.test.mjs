@@ -207,11 +207,8 @@ test("keeps results compact with a mobile rail and collapsed training history", 
   assert.match(mobile, /\.gallery-card \{[^}]*flex: 0 0 min\(76vw, 292px\)/);
 });
 
-test("ships the editorial hero and accepted design concepts", async () => {
-  await Promise.all([
-    "assets/rosana-hero.png",
-    "concepts/rosana-brand-hero.png",
-    "concepts/rosana-brand-services.png",
-    "concepts/rosana-brand-contact.png",
-  ].map((file) => access(new URL(file, root))));
+test("ships the editorial hero used by the production site", async () => {
+  await access(new URL("assets/rosana-hero.png", root));
+  const { html } = await source();
+  assert.match(html, /assets\/rosana-hero\.png/);
 });
