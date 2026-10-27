@@ -20,6 +20,9 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - name: Test site and booking rules
+        run: npm test
+
       - name: Install SFTP client
         if: env.OVH_SFTP_PASSWORD != ''
         run: sudo apt-get update && sudo apt-get install --yes lftp
@@ -40,6 +43,10 @@ jobs:
           put index.html -o index-new.html
           put styles.css -o styles-new.css
           put app.js -o app-new.js
+          put booking-model.js -o booking-model.js
+          put booking.js -o booking.js
+          put booking.css -o booking.css
+          put agendar.html -o agendar.html
           mirror --reverse --only-newer --parallel=2 assets assets
           put .htaccess -o .htaccess
           rm index.html
